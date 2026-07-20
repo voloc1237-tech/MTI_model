@@ -47,7 +47,7 @@ class TriggerResult:
 @dataclass
 class RegionalForecast:
     name: str
-    coefficient: float    
+    coefficient: float
     risk_score: float
     probability: float
     risk_level: RiskLevel
@@ -195,7 +195,7 @@ class MTIModel:
                 trigger_date + relativedelta(months=lag_max))
 
     def apply_regional_coefficient(self, base_risk: float, region_code: str) -> float:
-        coeff = self.regions.get(region_code, {}).get('coefficient', 0.5)        
+        coeff = self.regions.get(region_code, {}).get('coefficient', 0.5)
         return base_risk * coeff
 
     def bayesian_risk_assessment(self, P_trigger: float, region_coeff: float,
@@ -294,7 +294,7 @@ class MTIModel:
             interpretation = (
                 f"Глобальный сейсмический риск в норме "
                 f"(активных регионов: {len(active_regions)}, "
-                f"требуется: {self.min_regions_for_global_alert})."            
+                f"требуется: {self.min_regions_for_global_alert})."
             )
 
         return GlobalForecast(
@@ -344,7 +344,8 @@ class MTIModel:
     # ------------------------------------------------------------------
     def retrospective_test(self, ssn_df: pd.DataFrame, quake_df: pd.DataFrame,
                            start_date: datetime, end_date: datetime) -> Dict:
-        ssn_processed = self.calculate_dSSN_dt(ssn_df)        quake_df = quake_df.copy()
+        ssn_processed = self.calculate_dSSN_dt(ssn_df)
+        quake_df = quake_df.copy()
 
         for col in ('Date',):
             if not pd.api.types.is_datetime64_any_dtype(quake_df[col]):
@@ -366,8 +367,7 @@ class MTIModel:
             if current_ts <= covered_until:
                 continue
 
-            current_date = current_ts.to_pydatetime() if isinstance(current_ts, pd.Timestamp) 
-            else current_ts
+            current_date = current_ts.to_pydatetime() if isinstance(current_ts, pd.Timestamp) else current_ts
             ssn = row.SSN_smooth if not pd.isna(row.SSN_smooth) else row.SSN
             dssn_dt = row.dSSN_dt if not pd.isna(row.dSSN_dt) else 0.0
 
@@ -394,7 +394,7 @@ class MTIModel:
                     tp += 1
                 else:
                     fp += 1
-                covered_until = pd.Timestamp(window_end)            
+                covered_until = pd.Timestamp(window_end)
             else:
                 check_start = pd.Timestamp(current_date)
                 check_end = min(check_start + pd.DateOffset(months=12), end_ts)
@@ -470,8 +470,7 @@ def format_forecast_text(forecast: GlobalForecast, current_date: datetime,
     }
 
     if phase is None:
-        phase = model.determine_phase(ssn, dssn_dt) 
-        if model else SolarPhase.TRANSITION
+        phase = model.determine_phase(ssn, dssn_dt) if model else SolarPhase.TRANSITION
 
     lines = [
         "=" * 60,
@@ -504,25 +503,10 @@ def format_forecast_text(forecast: GlobalForecast, current_date: datetime,
             icon = "🔴" if r.risk_level == RiskLevel.CRITICAL else "🟠"
             ws = r.risk_window_start.strftime('%Y-%m') if r.risk_window_start else 'N/A'
             we = r.risk_window_end.strftime('%Y-%m') if r.risk_window_end else 'N/A'
-            lines += [
-                "",
-                f"{icon} {i}. {r.name} ({r.lat:.1f}°, {r.lon:.1f}°)",
-                f"   Sensitivity: {r.coefficient:.1f}",
-                f"   P(M≥7.5): {r.probability:.1%}",
-                f"   Risk Score: {r.risk_score:.2f}",
-                f"   Window: {ws} – {we}",
-                f"   {r.description}",
-            ]
-    else:
-        lines += ["-" * 60, "No regions with critical or high risk", "-" * 60]
-
-    lines += [
-        "", "=" * 60,
-        "Model Limitations:",
-        "• Predicts only M≥7.5 events, depth ≤ 70 km",
-        "• Spatial accuracy: ~1000 km around region center",
-        "• Temporal accuracy: 1-12 months",
-        "=" * 60,
-    ]
+            lines.append(
+                f"{i}. {r.name} {icon}  "
+                f"P={r.probability:.1%}  "
+                f"window: {ws} – {we}"
+            )
 
     return "\n".join(lines)
