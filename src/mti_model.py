@@ -47,7 +47,8 @@ class TriggerResult:
 @dataclass
 class RegionalForecast:
     name: str
-    coefficient: float    risk_score: float
+    coefficient: float    
+    risk_score: float
     probability: float
     risk_level: RiskLevel
     risk_window_start: Optional[datetime] = None
