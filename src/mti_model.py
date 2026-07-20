@@ -341,8 +341,8 @@ class MTIModel:
     # ------------------------------------------------------------------
     def retrospective_test(self, ssn_df: pd.DataFrame, quake_df: pd.DataFrame,
                            start_date: datetime, end_date: datetime) -> Dict:
-        ssn_processed = self.calculate_dSSN_dt(ssn_df)
-        quake_df = quake_df.copy()
+        ssn_processed = self.calculate_dSSN_dt(ssn_df)        quake_df = quake_df.copy()
+
         for col in ('Date',):
             if not pd.api.types.is_datetime64_any_dtype(quake_df[col]):
                 quake_df[col] = pd.to_datetime(quake_df[col])
@@ -428,18 +428,22 @@ class MTIModel:
     def binomial_test(self, observed_tp: int, total_events: int,
                       p_prior: Optional[float] = None) -> float:
         p_prior = p_prior or self.model_cfg['prior_probability']
+
         try:
             from scipy.stats import binomtest
             return binomtest(observed_tp, total_events, p_prior, alternative='greater').pvalue
         except ImportError:
             pass
+
         try:
             from scipy.stats import binom_test
             return binom_test(observed_tp, total_events, p_prior, alternative='greater')
         except ImportError:
             pass
         if total_events <= 0 or observed_tp <= 0:
-            return 1.0        return sum(
+            return 1.0
+
+        return sum(
             math.comb(total_events, k) * (p_prior ** k) * ((1 - p_prior) ** (total_events - k))
             for k in range(observed_tp, total_events + 1)
         )
@@ -477,34 +481,42 @@ def format_forecast_text(forecast: GlobalForecast, current_date: datetime,
     ]
 
     if forecast.risk_window_start and forecast.risk_window_end:
-        lines += ["", "Risk Window:",
-                  f"  From: {forecast.risk_window_start.strftime('%Y-%m-%d')}",
-                  f"  To:   {forecast.risk_window_end.strftime('%Y-%m-%d')}"]
+        lines += [
+            "", "Risk Window:",
+            f"  From: {forecast.risk_window_start.strftime('%Y-%m-%d')}",
+            f"  To:   {forecast.risk_window_end.strftime('%Y-%m-%d')}",
+        ]
 
     lines += ["", f"Interpretation: {forecast.interpretation}", ""]
-
     if forecast.active_regions:
-        lines += ["-" * 60,
-                  f"HIGH-RISK REGIONS ({len(forecast.active_regions)})",
-                  "-" * 60]
+        lines += [
+            "-" * 60,
+            f"HIGH-RISK REGIONS ({len(forecast.active_regions)})",
+            "-" * 60,
+        ]
         for i, r in enumerate(forecast.active_regions, 1):
-            icon = "🔴" if r.risk_level == RiskLevel.CRITICAL else "🟠"            ws = r.risk_window_start.strftime('%Y-%m') if r.risk_window_start else 'N/A'
+            icon = "🔴" if r.risk_level == RiskLevel.CRITICAL else "🟠"
+            ws = r.risk_window_start.strftime('%Y-%m') if r.risk_window_start else 'N/A'
             we = r.risk_window_end.strftime('%Y-%m') if r.risk_window_end else 'N/A'
-            lines += ["",
-                      f"{icon} {i}. {r.name} ({r.lat:.1f}°, {r.lon:.1f}°)",
-                      f"   Sensitivity: {r.coefficient:.1f}",
-                      f"   P(M≥7.5): {r.probability:.1%}",
-                      f"   Risk Score: {r.risk_score:.2f}",
-                      f"   Window: {ws} – {we}",
-                      f"   {r.description}"]
+            lines += [
+                "",
+                f"{icon} {i}. {r.name} ({r.lat:.1f}°, {r.lon:.1f}°)",
+                f"   Sensitivity: {r.coefficient:.1f}",
+                f"   P(M≥7.5): {r.probability:.1%}",
+                f"   Risk Score: {r.risk_score:.2f}",
+                f"   Window: {ws} – {we}",
+                f"   {r.description}",
+            ]
     else:
         lines += ["-" * 60, "No regions with critical or high risk", "-" * 60]
 
-    lines += ["", "=" * 60,
-              "Model Limitations:",
-              "• Predicts only M≥7.5 events, depth ≤ 70 km",
-              "• Spatial accuracy: ~1000 km around region center",
-              "• Temporal accuracy: 1-12 months",
-              "=" * 60]
+    lines += [
+        "", "=" * 60,
+        "Model Limitations:",
+        "• Predicts only M≥7.5 events, depth ≤ 70 km",
+        "• Spatial accuracy: ~1000 km around region center",
+        "• Temporal accuracy: 1-12 months",
+        "=" * 60,
+    ]
 
     return "\n".join(lines)
