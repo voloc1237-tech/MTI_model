@@ -1,0 +1,58 @@
+name: Manual Forecast
+
+on:
+  workflow_dispatch:
+    inputs:
+      ssn:
+        description: 'SSN value (leave empty for auto)'
+        required: false
+        type: string
+      dssn:
+        description: 'dSSN/dt value (leave empty for auto)'
+        required: false
+        type: string
+      date:
+        description: 'Forecast date (YYYY-MM-DD, leave empty for today)'
+        required: false
+        type: string
+
+jobs:
+  forecast:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - run: pip install -r requirements.txt
+      
+      
+      - name: Run manual forecast
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+         
+        run: |
+          ARGS="forecast --output-dir outputs"
+          
+          if [ -n "${{ github.event.inputs.ssn }}" ]; then
+            ARGS="$ARGS --ssn ${{ github.event.inputs.ssn }}"
+          fi
+          
+          if [ -n "${{ github.event.inputs.dssn }}" ]; then
+            ARGS="$ARGS --dssn ${{ github.event.inputs.dssn }}"
+          fi
+          
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            ARGS="$ARGS --date ${{ github.event.inputs.date }}"
+          fi
+          
+          python main.py $ARGS
+      
+      - uses: actions/upload-artifact@v4
+        with:
+          name: manual-forecast
+          path: outputs/
