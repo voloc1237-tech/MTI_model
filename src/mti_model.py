@@ -195,7 +195,8 @@ class MTIModel:
                 trigger_date + relativedelta(months=lag_max))
 
     def apply_regional_coefficient(self, base_risk: float, region_code: str) -> float:
-        coeff = self.regions.get(region_code, {}).get('coefficient', 0.5)        return base_risk * coeff
+        coeff = self.regions.get(region_code, {}).get('coefficient', 0.5)        
+        return base_risk * coeff
 
     def bayesian_risk_assessment(self, P_trigger: float, region_coeff: float,
                                  lag_coeff: float,
@@ -293,7 +294,8 @@ class MTIModel:
             interpretation = (
                 f"Глобальный сейсмический риск в норме "
                 f"(активных регионов: {len(active_regions)}, "
-                f"требуется: {self.min_regions_for_global_alert})."            )
+                f"требуется: {self.min_regions_for_global_alert})."            
+            )
 
         return GlobalForecast(
             max_probability=max_prob,
@@ -364,7 +366,8 @@ class MTIModel:
             if current_ts <= covered_until:
                 continue
 
-            current_date = current_ts.to_pydatetime() if isinstance(current_ts, pd.Timestamp) else current_ts
+            current_date = current_ts.to_pydatetime() if isinstance(current_ts, pd.Timestamp) 
+            else current_ts
             ssn = row.SSN_smooth if not pd.isna(row.SSN_smooth) else row.SSN
             dssn_dt = row.dSSN_dt if not pd.isna(row.dSSN_dt) else 0.0
 
@@ -391,7 +394,8 @@ class MTIModel:
                     tp += 1
                 else:
                     fp += 1
-                covered_until = pd.Timestamp(window_end)            else:
+                covered_until = pd.Timestamp(window_end)            
+            else:
                 check_start = pd.Timestamp(current_date)
                 check_end = min(check_start + pd.DateOffset(months=12), end_ts)
 
@@ -466,7 +470,8 @@ def format_forecast_text(forecast: GlobalForecast, current_date: datetime,
     }
 
     if phase is None:
-        phase = model.determine_phase(ssn, dssn_dt) if model else SolarPhase.TRANSITION
+        phase = model.determine_phase(ssn, dssn_dt) 
+        if model else SolarPhase.TRANSITION
 
     lines = [
         "=" * 60,
