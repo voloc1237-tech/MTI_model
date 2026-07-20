@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+"""
+МТИ-модель (Magneto-Tectonic Inertia Model)
+...
 
 
 import json
