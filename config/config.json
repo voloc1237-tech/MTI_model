@@ -214,7 +214,7 @@
       "lon": -89.5,
       "coefficient": 0.5,
       "description": "Внутриплитная зона, Нью-Мадридский сейсмический пояс"
-    
+    }
   },
   "global_forecast": {
     "enabled": true,
@@ -222,4 +222,3 @@
     "min_regions_for_global_alert": 3
   }
 }
-﻿
