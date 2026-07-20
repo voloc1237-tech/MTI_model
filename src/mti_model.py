@@ -1,7 +1,4 @@
-"""
-МТИ-модель (Magneto-Tectonic Inertia Model)
-Ядро модели для GitHub-репозитория
-"""
+
 
 import json
 import math
