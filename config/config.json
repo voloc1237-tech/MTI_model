@@ -1,0 +1,225 @@
+{
+  "model": {
+    "ssn_threshold": 80,
+    "decline_threshold": -5,
+    "peak_plateau_threshold": 5,
+    "smoothing_months": 3,
+    "min_magnitude": 7.5,
+    "max_depth_km": 70,
+    "prior_probability": 0.54,
+    "normalization_constant": 0.27
+  },
+  "risk_thresholds": {
+    "critical": 0.7,
+    "high": 0.4,
+    "elevated": 0.2
+  },
+  "lag_windows": {
+    "steep": {
+      "min_months": 1,
+      "max_months": 3,
+      "decline_rate_min": 0.10,
+      "multiplier": 2.5
+    },
+    "moderate": {
+      "min_months": 3,
+      "max_months": 6,
+      "decline_rate_min": 0.05,
+      "multiplier": 2.0
+    },
+    "slow": {
+      "min_months": 6,
+      "max_months": 12,
+      "decline_rate_min": 0.0,
+      "multiplier": 1.5
+    }
+  },
+  "regions": {
+    "Kamchatka_Kurils": {
+      "lat": 53.0,
+      "lon": 158.0,
+      "coefficient": 1.4,
+      "description": "Субдукция Тихоокеанской плиты, Камчатско-Курильская дуга"
+    },
+    "Japan_Tohoku": {
+      "lat": 38.0,
+      "lon": 142.0,
+      "coefficient": 1.4,
+      "description": "Зона субдукции у северо-восточного побережья Японии"
+    },
+    "Japan_Nankai": {
+      "lat": 33.5,
+      "lon": 135.0,
+      "coefficient": 1.4,
+      "description": "Зона субдукции Нанкай, южная Япония"
+    },
+    "Philippines": {
+      "lat": 13.0,
+      "lon": 124.0,
+      "coefficient": 1.5,
+      "description": "Филиппинский разлом и зона субдукции"
+    },
+    "Indonesia_Sumatra": {
+      "lat": 0.0,
+      "lon": 100.0,
+      "coefficient": 1.5,
+      "description": "Суматранская субдукция, зона мега-землетрясений"
+    },
+    "Indonesia_Java": {
+      "lat": -8.0,
+      "lon": 112.0,
+      "coefficient": 1.5,
+      "description": "Яванская субдукционная дуга"
+    },
+    "Papua_NewGuinea": {
+      "lat": -5.5,
+      "lon": 147.0,
+      "coefficient": 1.2,
+      "description": "Зона коллизии плит, Меланезийская дуга"
+    },
+    "Tonga_Fiji": {
+      "lat": -20.0,
+      "lon": -176.0,
+      "coefficient": 1.2,
+      "description": "Одна из самых активных субдукционных зон мира"
+    },
+    "NewZealand": {
+      "lat": -42.0,
+      "lon": 173.0,
+      "coefficient": 1.2,
+      "description": "Альпийский разлом, зона трансформного скольжения"
+    },
+    "Alaska_Aleutian": {
+      "lat": 55.0,
+      "lon": -160.0,
+      "coefficient": 1.3,
+      "description": "Алеутская субдукционная дуга"
+    },
+    "Cascadia_USA": {
+      "lat": 45.0,
+      "lon": -125.0,
+      "coefficient": 1.8,
+      "description": "Зона субдукции Хуан-де-Фука, риск мега-землетрясений"
+    },
+    "SanAndreas_California": {
+      "lat": 36.0,
+      "lon": -120.5,
+      "coefficient": 0.6,
+      "description": "Трансформный разлом Сан-Андреас"
+    },
+    "Mexico_Subduction": {
+      "lat": 17.0,
+      "lon": -101.0,
+      "coefficient": 1.8,
+      "description": "Мексиканская субдукционная зона"
+    },
+    "CentralAmerica": {
+      "lat": 12.0,
+      "lon": -87.0,
+      "coefficient": 1.5,
+      "description": "Центральноамериканская субдукция"
+    },
+    "Chile_Nazca": {
+      "lat": -25.0,
+      "lon": -70.0,
+      "coefficient": 1.9,
+      "description": "Самая сейсмоактивная зона планеты, субдукция плиты Наска"
+    },
+    "Peru_Ecuador": {
+      "lat": -8.0,
+      "lon": -79.0,
+      "coefficient": 1.7,
+      "description": "Перуанско-Эквадорская субдукция"
+    },
+    "Turkey_NAF": {
+      "lat": 40.7,
+      "lon": 35.0,
+      "coefficient": 0.5,
+      "description": "Северо-Анатолийский разлом"
+    },
+    "Turkey_EAF": {
+      "lat": 38.5,
+      "lon": 38.0,
+      "coefficient": 0.5,
+      "description": "Восточно-Анатолийский разлом"
+    },
+    "Iran": {
+      "lat": 33.0,
+      "lon": 52.0,
+      "coefficient": 0.5,
+      "description": "Коллизия Аравийской и Евразийской плит"
+    },
+    "Afghanistan": {
+      "lat": 35.5,
+      "lon": 69.0,
+      "coefficient": 0.5,
+      "description": "Гиндукушская сейсмоактивная зона"
+    },
+    "Himalayas_Nepal": {
+      "lat": 28.0,
+      "lon": 85.0,
+      "coefficient": 0.5,
+      "description": "Главный Гималайский надвиг, зона мега-землетрясений"
+    },
+    "Himalayas_Pakistan": {
+      "lat": 34.0,
+      "lon": 73.0,
+      "coefficient": 0.5,
+      "description": "Западные Гималаи, разлом Балнакур"
+    },
+    "Caucasus": {
+      "lat": 42.0,
+      "lon": 44.0,
+      "coefficient": 0.5,
+      "description": "Большой Кавказ, зона коллизии"
+    },
+    "Italy_Apennines": {
+      "lat": 42.5,
+      "lon": 13.5,
+      "coefficient": 0.5,
+      "description": "Апеннинский разлом, субдукция Адриатической плиты"
+    },
+    "Greece_Aegean": {
+      "lat": 38.0,
+      "lon": 23.0,
+      "coefficient": 0.5,
+      "description": "Эгейская зона субдукции"
+    },
+    "Iceland": {
+      "lat": 64.0,
+      "lon": -19.0,
+      "coefficient": 0.5,
+      "description": "Срединно-Атлантический хребет, рифтовая зона"
+    },
+    "Azores": {
+      "lat": 38.5,
+      "lon": -28.0,
+      "coefficient": 0.5,
+      "description": "Тройное сочленение плит в Атлантике"
+    },
+    "Baikal": {
+      "lat": 53.0,
+      "lon": 108.0,
+      "coefficient": 0.5,
+      "description": "Байкальская рифтовая зона"
+    },
+    "EastAfricanRift": {
+      "lat": -2.0,
+      "lon": 36.0,
+      "coefficient": 0.5,
+      "description": "Восточно-Африканская рифтовая долина"
+    },
+    "NewMadrid_USA": {
+      "lat": 36.5,
+      "lon": -89.5,
+      "coefficient": 0.5,
+      "description": "Внутриплитная зона, Нью-Мадридский сейсмический пояс"
+    }
+  },
+  "global_forecast": {
+    "enabled": true,
+    "aggregation_method": "max",
+    "min_regions_for_global_alert": 3
+  }
+}
+﻿
