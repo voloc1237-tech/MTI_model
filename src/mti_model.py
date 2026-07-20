@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 МТИ-модель (Magneto-Tectonic Inertia Model)
-...
+"""
 
 
 import json
@@ -64,10 +64,7 @@ class GlobalForecast:
 
 
 class MTIModel:
-    """
-    Реализация МТИ-модели согласно формальному описанию
-    для независимой проверки
-    """
+    
     
     def __init__(self, config_path: str = 'config/config.json'):
         with open(config_path, 'r', encoding='utf-8') as f:
