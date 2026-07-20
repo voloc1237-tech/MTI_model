@@ -1,0 +1,70 @@
+﻿name: Daily MTI Forecast
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+    inputs:
+      force_calibrate:
+        description: 'Force recalibration'
+        required: false
+        default: 'false'
+
+jobs:
+  forecast:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Cache pip
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+      
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      
+      - name: Cache data
+        uses: actions/cache@v3
+        with:
+          path: data/
+          key: ${{ runner.os }}-data-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-data-
+      
+      - name: Run MTI forecast
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          FORCE_FLAG=""
+          if [ "${{ github.event.inputs.force_calibrate }}" = "true" ]; then
+            FORCE_FLAG="--force-calibrate"
+          fi
+          python main.py forecast --output-dir outputs $FORCE_FLAG
+      
+      - name: Upload outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: mti-forecast-${{ github.run_id }}
+          path: outputs/
+          retention-days: 30
+      
+      - name: Commit results
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          mkdir -p forecasts/$(date +%Y/%m)
+          cp outputs/mti_report_*.txt forecasts/$(date +%Y/%m)/ 2>/dev/null || true
+          cp outputs/mti_forecast_*.json forecasts/$(date +%Y/%m)/ 2>/dev/null || true
+          
+          git add forecasts/
+          git diff --quiet && git diff --staged --quiet || git commit -m "MTI forecast $(date +%Y-%m-%d)"
+          git push || true
