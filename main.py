@@ -201,7 +201,9 @@ class MTITelegramNotifier:
         # Футер с ссылкой на репозиторий
         lines.extend([
             f"",
-            f"📊 [Последние прогнозы](https://github.com/voloc1237-tech/MTI_model/tree/main/forecasts)",
+            f"📊 Репозиторий: github.com/voloc1237-tech/MTI_model",
+
+            #f"📊 [Последние прогнозы](https://github.com/voloc1237-tech/MTI_model/tree/main/forecasts)",
             #f"📊 [Полный отчёт](https://github.com/{os.getenv('GITHUB_REPOSITORY', '')})",
             f"",
             f"_МТИ-модель | Автоматический прогноз_"
