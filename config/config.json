@@ -1,10 +1,10 @@
 {
   "model": {
-    "ssn_threshold": 70,
+    "ssn_threshold": 60,
     "decline_threshold": -5,
     "peak_plateau_threshold": 5,
     "smoothing_months": 3,
-    "min_magnitude": 7.0,
+    "min_magnitude": 5.0,
     "max_depth_km": 300,
     "prior_probability": 0.03,
     "normalization_constant": 0.3
