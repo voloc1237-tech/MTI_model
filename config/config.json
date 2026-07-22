@@ -4,9 +4,9 @@
     "decline_threshold": -5,
     "peak_plateau_threshold": 5,
     "smoothing_months": 3,
-    "min_magnitude": 5.5,
-    "max_depth_km": 70,
-    "prior_probability": 0.04,
+    "min_magnitude": 5.0,
+    "max_depth_km": 200,
+    "prior_probability": 0.03,
     "normalization_constant": 0.27
   },
   "risk_thresholds": {
