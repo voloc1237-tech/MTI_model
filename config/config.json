@@ -1,13 +1,13 @@
 {
   "model": {
-    "ssn_threshold": 65,
+    "ssn_threshold": 85,
     "decline_threshold": -5,
     "peak_plateau_threshold": 5,
-    "smoothing_months": 3,
+    "smoothing_months": 6,
     "min_magnitude": 7.5,
     "max_depth_km": 300,
-    "prior_probability": 0.03,
-    "normalization_constant": 0.3
+    "prior_probability": 0.53,
+    "normalization_constant": 0.27
   },
   "risk_thresholds": {
     "critical": 0.7,
