@@ -5,7 +5,7 @@
     "peak_plateau_threshold": 5,
     "smoothing_months": 3,
     "min_magnitude": 3.5,
-    "max_depth_km": 70,
+    "max_depth_km": 700,
     "prior_probability": 0.03,
     "normalization_constant": 0.27
   },
