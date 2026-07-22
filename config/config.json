@@ -1,6 +1,6 @@
 {
   "model": {
-    "ssn_threshold": 65,
+    "ssn_threshold": 95,
     "decline_threshold": -5,
     "peak_plateau_threshold": 5,
     "smoothing_months": 3,
