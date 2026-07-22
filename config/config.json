@@ -6,8 +6,8 @@
     "smoothing_months": 3,
     "min_magnitude": 5.5,
     "max_depth_km": 70,
-    "prior_probability": 0.54,
-    "normalization_constant": 1.0
+    "prior_probability": 0.04,
+    "normalization_constant": 0.27
   },
   "risk_thresholds": {
     "critical": 0.7,
